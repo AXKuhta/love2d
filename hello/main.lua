@@ -1,4 +1,6 @@
 
+require("perlin")
+
 -- Класс ну типа
 Fly = {}
 Fly.__index = Fly
@@ -53,20 +55,36 @@ function love.load()
 
 	love.graphics.setBackgroundColor(.6, .8, 1.)
 
-	herd = HerdFlies:create("asd", 0, 0, w, h, 10, 40)
+	herd = HerdFlies:create("asd", 0, 0, w, h, 100, 40)
 
-	--fly = Fly:create()
+	fly = Fly:create()
+
+	-- Заранее заготавливаем рандомное движение
+	tx = 0
+	ty = -1
+	noisex = Noise:create(1, 1, 256)
+	noisey = Noise:create(1, 1, 256)
 end
 
 function love.update(dt)
+	tx = tx + .001
+	ty = ty + .0015
+
+	x = noisex:call(tx)
+	y = noisey:call(ty)
+
+	-- Залезли руками в муху
+	fly.x = remap(x, 0, 1, 50, w - 50)
+	fly.y = remap(y, 0, 1, 50, h - 50)
+
 	--fly:update(dt)
-	herd:update(dt)
+	--herd:update(dt)
 end
 
 function love.draw()
 	love.graphics.draw(background, 0, 0)
-	--fly:draw()
-	herd:draw()
+	fly:draw()
+	--herd:draw()
 	love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)
 end
 
