@@ -23,17 +23,17 @@ function Fly:update(dt)
 	local a_y = 0
 
 	if state == 0 then
-		a_x = fly.speed
+		a_x = self.speed
 	elseif state == 1 then
-		--a_x = -fly.speed
+		a_x = -self.speed
 	elseif state == 2 then
-		a_y = fly.speed
+		a_y = self.speed
 	elseif state == 3 then
-		--a_y = -fly.speed
+		a_y = -self.speed
 	end
 
-	self.x = self.x + a_x * dt * fly.speed
-	self.y = self.y + a_y * dt * fly.speed
+	self.x = self.x + a_x * dt * self.speed
+	self.y = self.y + a_y * dt * self.speed
 
 	self.x = self.x % w
 	self.y = self.y % h
@@ -53,16 +53,20 @@ function love.load()
 
 	love.graphics.setBackgroundColor(.6, .8, 1.)
 
-	fly = Fly:create()
+	herd = HerdFlies:create("asd", 0, 0, w, h, 10, 40)
+
+	--fly = Fly:create()
 end
 
 function love.update(dt)
-	fly:update(dt)
+	--fly:update(dt)
+	herd:update(dt)
 end
 
 function love.draw()
 	love.graphics.draw(background, 0, 0)
-	fly:draw()
+	--fly:draw()
+	herd:draw()
 	love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)
 end
 
