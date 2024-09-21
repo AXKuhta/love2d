@@ -37,6 +37,10 @@ function Fly:update(dt)
 	self.y = self.y % h
 end
 
+function Fly:draw()
+	love.graphics.draw(self.image, self.x, self.y)
+end
+
 function love.load()
 	background = love.graphics.newImage("resources/background.png")
 
@@ -56,6 +60,35 @@ end
 
 function love.draw()
 	love.graphics.draw(background, 0, 0)
-	love.graphics.draw(fly.image, fly.x, fly.y)
+	fly:draw()
 	love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)
+end
+
+HerdFlies = {}
+HerdFlies.__index = HerdFlies
+
+function HerdFlies:create(path, xmin, xmax, ymin, ymax, n, speed)
+	local flies = {}
+	setmetatable(flies, HerdFlies)
+	flies.n = n
+	flies.objs = {}
+	for i=1, n do
+		local x = love.math.random(xmin, xmax)
+		local y = love.math.random(ymin, ymax)
+		flies.objs[i] = Fly:create(path, x, y, speed)
+	end
+
+	return flies
+end
+
+function HerdFlies:update(dt)
+	for i=1, self.n do
+		self.objs[i]:update(dt)
+	end
+end
+
+function HerdFlies:draw()
+	for i=1, self.n do
+		self.objs[i]:draw()
+	end
 end
