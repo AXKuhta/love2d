@@ -38,8 +38,11 @@ function love.load()
 end
 
 function love.update(dt)
-	x = x + a_x * dt
-	y = y + a_y * dt
+	local rnd_x = love.math.random(0, 3)
+	local rnd_y = love.math.random(0, 3)
+
+	x = x + a_x * dt * rnd_x
+	y = y + a_y * dt * rnd_y
 
 	x = x % w
 	y = y % h
