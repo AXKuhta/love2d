@@ -31,8 +31,8 @@ function Fly:update(dt)
 	local x = self.noisex:call(self.tx)
 	local y = self.noisey:call(self.ty)
 
-	self.x = remap(x, 0, 1, 50, w - 50)
-	self.y = remap(y, 0, 1, 50, h - 50)
+	self.x = remap(x, 0, 1, 0, w - 50)
+	self.y = remap(y, 0, 1, 0, h - 50)
 end
 
 function Fly:draw()
