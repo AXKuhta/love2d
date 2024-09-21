@@ -1,24 +1,32 @@
 
 require("vec")
+require("mover")
 
 w = 500
 h = 500
 
 function love.load()
 	love.window.setMode(w, h)
+	mover = Mover:create(
+		Vec2:create(300, 200),
+		Vec2:create()
+	)
 
-	center = Vec2:create(w / 2, h / 2)
+	mover.acceleration.x = 0.01
+	mover.acceleration.y = -0.01
+end
+
+function love.update(dt)
+	x, y = love.mouse.getPosition()
+	v = Vec2:create(x, y)
+
+	dir = (v - mover.position):norm()
+
+	mover.acceleration = dir * 0.05
+
+	mover:update(dt)
 end
 
 function love.draw()
-	local x, y = love.mouse.getPosition()
-	local v = Vec2:create(x, y)
-	local delta = v - center
-	local mag = delta:mag()
-
-	local line_v = center + delta:norm()*50
-
-	love.graphics.setColor(1, 0, 0)
-	love.graphics.rectangle("fill", 0, 0, mag, 10)
-	love.graphics.line(center.x, center.y, line_v.x, line_v.y)
+	mover:draw()
 end
