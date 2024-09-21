@@ -18,8 +18,8 @@ function Fly:create(path, x, y, speed)
 
 	fly.noisex = Noise:create(1, 1, 256)
 	fly.noisey = Noise:create(1, 1, 256)
-	fly.tx = 0
-	fly.ty = 0
+	fly.tx = love.math.random()
+	fly.ty = love.math.random()
 
 	return fly
 end
@@ -33,9 +33,6 @@ function Fly:update(dt)
 
 	self.x = remap(x, 0, 1, 50, w - 50)
 	self.y = remap(y, 0, 1, 50, h - 50)
-
-	--self.x = self.x % w
-	--self.y = self.y % h
 end
 
 function Fly:draw()
@@ -54,19 +51,18 @@ function love.load()
 
 	herd = HerdFlies:create("asd", 0, 0, w, h, 100, 40)
 
-	fly = Fly:create()
-
+	--fly = Fly:create()
 end
 
 function love.update(dt)
-	fly:update(dt)
-	--herd:update(dt)
+	--fly:update(dt)
+	herd:update(dt)
 end
 
 function love.draw()
 	love.graphics.draw(background, 0, 0)
-	fly:draw()
-	--herd:draw()
+	--fly:draw()
+	herd:draw()
 	love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)
 end
 
