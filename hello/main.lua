@@ -1,11 +1,4 @@
 
-x = 0
-y = 0
-
--- px per second inertia
-a_x = 30
-a_y = 60
-
 -- Класс ну типа
 Fly = {}
 Fly.__index = Fly
@@ -19,19 +12,28 @@ function Fly:create(path, x, y, speed)
 	fly.image = love.graphics.newImage("resources/mosquito_small.png")
 	fly.x = x or 0
 	fly.y = y or 0
-	fly.a_x = 30
-	fly.a_y = 60
-	fly.speed = speed or 1
+	fly.speed = speed or 40
 
 	return fly
 end
 
 function Fly:update(dt)
-	local rnd_x = love.math.random(0, 3)
-	local rnd_y = love.math.random(0, 3)
+	local state = love.math.random(0, 3)
+	local a_x = 0
+	local a_y = 0
 
-	self.x = self.x + self.a_x * dt * rnd_x
-	self.y = self.y + self.a_y * dt * rnd_y
+	if state == 0 then
+		a_x = fly.speed
+	elseif state == 1 then
+		--a_x = -fly.speed
+	elseif state == 2 then
+		a_y = fly.speed
+	elseif state == 3 then
+		--a_y = -fly.speed
+	end
+
+	self.x = self.x + a_x * dt * fly.speed
+	self.y = self.y + a_y * dt * fly.speed
 
 	self.x = self.x % w
 	self.y = self.y % h
