@@ -84,7 +84,7 @@ function Vec2:norm()
 	end
 end
 
-function Vec2:limit()
+function Vec2:limit(max_value)
 	if self:mag() > max_value then
 		return self:norm() * max_value
 	end

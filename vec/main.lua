@@ -16,7 +16,7 @@ function love.draw()
 	local delta = v - center
 	local mag = delta:mag()
 
-	local line_v = center + delta
+	local line_v = center + delta:norm()*50
 
 	love.graphics.setColor(1, 0, 0)
 	love.graphics.rectangle("fill", 0, 0, mag, 10)
