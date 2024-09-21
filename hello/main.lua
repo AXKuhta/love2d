@@ -16,29 +16,26 @@ function Fly:create(path, x, y, speed)
 	fly.y = y or 0
 	fly.speed = speed or 40
 
+	fly.noisex = Noise:create(1, 1, 256)
+	fly.noisey = Noise:create(1, 1, 256)
+	fly.tx = 0
+	fly.ty = 0
+
 	return fly
 end
 
 function Fly:update(dt)
-	local state = love.math.random(0, 3)
-	local a_x = 0
-	local a_y = 0
+	self.tx = self.tx + .001
+	self.ty = self.ty + .0015
 
-	if state == 0 then
-		a_x = self.speed
-	elseif state == 1 then
-		a_x = -self.speed
-	elseif state == 2 then
-		a_y = self.speed
-	elseif state == 3 then
-		a_y = -self.speed
-	end
+	local x = self.noisex:call(self.tx)
+	local y = self.noisey:call(self.ty)
 
-	self.x = self.x + a_x * dt * self.speed
-	self.y = self.y + a_y * dt * self.speed
+	self.x = remap(x, 0, 1, 50, w - 50)
+	self.y = remap(y, 0, 1, 50, h - 50)
 
-	self.x = self.x % w
-	self.y = self.y % h
+	--self.x = self.x % w
+	--self.y = self.y % h
 end
 
 function Fly:draw()
@@ -59,25 +56,10 @@ function love.load()
 
 	fly = Fly:create()
 
-	-- Заранее заготавливаем рандомное движение
-	tx = 0
-	ty = -1
-	noisex = Noise:create(1, 1, 256)
-	noisey = Noise:create(1, 1, 256)
 end
 
 function love.update(dt)
-	tx = tx + .001
-	ty = ty + .0015
-
-	x = noisex:call(tx)
-	y = noisey:call(ty)
-
-	-- Залезли руками в муху
-	fly.x = remap(x, 0, 1, 50, w - 50)
-	fly.y = remap(y, 0, 1, 50, h - 50)
-
-	--fly:update(dt)
+	fly:update(dt)
 	--herd:update(dt)
 end
 
