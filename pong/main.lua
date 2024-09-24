@@ -13,7 +13,8 @@ function love.load()
 	love.window.setMode(w, h)
 	ball = Ball:create(
 		Vec2:create(300, 200),
-		Vec2:create()
+		Vec2:create(),
+		20
 	)
 
 	ball.velocity.x = 1
