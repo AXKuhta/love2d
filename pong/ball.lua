@@ -52,39 +52,21 @@ function Ball:hit_test_rect(rect)
 end
 
 function Ball:hit_test_line(x1, y1, x2, y2)
-	local local_x1 = x1 - self.position.x
-	local local_y1 = self.position.y - y1
-	local local_x2 = x2 - self.position.x
-	local local_y2 = self.position.y - y2
+	local dx = x2 - x1
+	local dy = y2 - y1
+	local a = dx*dx + dy*dy
+	local b = 2*(dx*(x1 - self.position.x) + dy*(y1 - self.position.y))
+	local c = (x1 - self.position.x)^2 + (y1 - self.position.y)^2 - self.radius^2
+	local D = b^2 - 4*a*c
 
-	-- y = ax + b
-	local a = (local_y2 - local_y1) / (local_x2 - local_x1 + 0.0001)
-	local b = local_y2 - a*local_x2
-
-	-- xx + yy = radiusradius
-	-- yy = aa * xx + 2abx + bb
-	-- xx + aa * xx + 2abx + bb = radiusradius
-	-- (1 + aa) * xx + 2abx + bb = radiusradius
-	-- (1 + aa) * xx + 2abx + bb - radiusradius = 0
-	-- a_ = 1 + aa
-	-- b_ = 2ab
-	-- c_ = bb - radiusradius
-	-- D = b_b_ - 4a_c_
-	-- D > 0			Intersect exists
-	local a_ = 1 + a*a
-	local b_ = 2*a*b
-	local c_ = b*b - self.radius*self.radius
-	local D = b_*b_ - 4*a_*c_
-
-	local btm = math.min(local_y1, local_y2)
-	local top = math.max(local_y1, local_y2)
-
-	-- ( -b_ ± sqrt(D) ) /2/a
-	if D >= 0 and top > 0 and btm < 0 then
-		return true
-	else
+	if D < 0 then
 		return false
 	end
+
+	local t1 = (-b - D^0.5) / (2*a)
+	local t2 = (-b + D^0.5) / (2*a)
+
+	return (t1 >= 0 and t1 <= 1) or (t2 >= 0 and y2 <= 1)
 end
 
 function Ball:boundcheck()
