@@ -1,3 +1,4 @@
+
 Ball = {}
 Ball.__index = Ball
 
@@ -19,6 +20,10 @@ function Ball:update(dt)
 	self.velocity = self.velocity:limit(5)
 	self.position = self.position + self.velocity
 	self:boundcheck()
+end
+
+function Ball:hit_test_paddle()
+
 end
 
 function Ball:boundcheck()
