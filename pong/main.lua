@@ -12,13 +12,13 @@ h = 500
 function love.load()
 	love.window.setMode(w, h)
 	ball = Ball:create(
-		Vec2:create(300, 200),
+		Vec2:create(300, 240),
 		Vec2:create(),
 		20
 	)
 
-	ball.velocity.x = 1
-	ball.velocity.y = -0.1
+	ball.velocity.x = 3
+	ball.velocity.y = -0.3
 
 	local paddle_size = Vec2:create(20, 100)
 
@@ -45,6 +45,14 @@ function love.update(dt)
 	end
 
 	ball:update(dt)
+	ball:hit_test_rect(paddle_r)
+	ball:hit_test_rect(paddle_l)
+
+	if love.keyboard.isDown("w") then
+		paddle_l.position.y = paddle_l.position.y - 100*dt
+	elseif love.keyboard.isDown("s") then
+		paddle_l.position.y = paddle_l.position.y + 100*dt
+	end
 end
 
 function love.draw()
@@ -53,9 +61,4 @@ function love.draw()
 	ball:draw()
 
 	love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)
-	love.graphics.print("Ball: " .. tostring(ball.position), 10, 20)
-
-	love.graphics.print("Hitt: " .. tostring(ball:hit_test_line(100, 0, 400, 100)), 10, 30)
-
-	love.graphics.line(100, 0, 400, 100)
 end

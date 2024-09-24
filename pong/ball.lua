@@ -36,11 +36,6 @@ end
 -- LBBR
 -- LDDR
 --
--- Alt, vert line at x=self.x-other.x
--- xx + yy = r
--- yy = r - xx
--- y = sqrt(r - xx)
---
 function Ball:hit_test_rect(rect)
 	-- Four lines that make a rectangle
 	local left_x 	= rect.position.x - rect.size.x/2
@@ -48,7 +43,19 @@ function Ball:hit_test_rect(rect)
 	local top_y 	= rect.position.y - rect.size.y/2
 	local bottom_y 	= rect.position.y + rect.size.y/2
 
-	--if self:hit_test_line()
+	if self:hit_test_line(left_x, top_y, left_x, bottom_y) then
+		self.velocity.x = -self.velocity.x
+		self.position.x = left_x - self.radius - 0.1
+	elseif self:hit_test_line(right_x, top_y, right_x, bottom_y) then
+		self.velocity.x = -self.velocity.x
+		self.position.x = right_x + self.radius + 0.1
+	elseif self:hit_test_line(left_x, top_y, right_x, top_y) then
+		self.velocity.y = -self.velocity.y
+		self.position.y = top_y - self.radius - 0.1
+	elseif self:hit_test_line(left_x, bottom_y, right_x, bottom_y) then
+		self.velocity.y = -self.velocity.y
+		self.position.y = bottom_y + self.radius + 0.1
+	end
 end
 
 function Ball:hit_test_line(x1, y1, x2, y2)
