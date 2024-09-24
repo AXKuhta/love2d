@@ -51,4 +51,11 @@ function love.draw()
 	paddle_l:draw()
 	paddle_r:draw()
 	ball:draw()
+
+	love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)
+	love.graphics.print("Ball: " .. tostring(ball.position), 10, 20)
+
+	love.graphics.print("Hitt: " .. tostring(ball:hit_test_line(100, 0, 400, 100)), 10, 30)
+
+	love.graphics.line(100, 0, 400, 100)
 end
