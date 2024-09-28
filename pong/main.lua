@@ -10,6 +10,34 @@ require("scene")
 w = 640
 h = 640
 
+-- 0 = In menu
+-- 1 = Playing
+state = 0
+
+------------------------------------------------------------------------------------
+-- Menu scene
+------------------------------------------------------------------------------------
+
+function init_menu_scene()
+	local scene = Scene:create()
+
+	scene.draw = function(self)
+		love.graphics.setColor(0, 0, 0, .8)
+		love.graphics.rectangle("fill", 0, 0, w, h)
+		love.graphics.setColor(1, 1, 1, 1)
+		love.graphics.print("minPONG", w/2, h/2)
+		love.graphics.print("Press SPACE", w/2, h/2 + 20)
+	end
+
+	scene.update = function(self, dt)
+		if love.keyboard.isDown("space") then
+			state = 1
+		end
+	end
+
+	return scene
+end
+
 ------------------------------------------------------------------------------------
 -- Pong scene
 ------------------------------------------------------------------------------------
@@ -75,6 +103,7 @@ end
 function love.load()
 	love.window.setMode(w, h)
 
+	menu_scene = init_menu_scene()
 	pong_scene = init_pong_scene()
 end
 
@@ -89,11 +118,20 @@ function love.update(dt)
 		dt = 1/25
 	end
 
-	pong_scene:update(dt)
+	if state == 0 then
+		menu_scene:update(dt)
+	elseif state == 1 then
+		pong_scene:update(dt)
+	end
 end
 
 function love.draw()
-	pong_scene:draw()
+	if state == 0 then
+		pong_scene:draw(dt)
+		menu_scene:draw(dt)
+	elseif state == 1 then
+		pong_scene:draw(dt)
+	end
 
 	love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 30)
 end
