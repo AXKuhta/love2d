@@ -10,13 +10,12 @@ function love.load()
 	love.window.setMode(w, h)
 	mover = Mover:create(
 		Vec2:create(200, 200),
-		Vec2:create(),
-		1
+		10, 80, 1
 	)
 
 	gravity = Vec2:create(0, 0.2)
 
-	water = Liquid:create(0, h - 80, w, 80, .2)
+	water = Liquid:create(0, h - 80, w, 80, .01)
 end
 
 function love.update(dt)
@@ -32,16 +31,7 @@ function love.update(dt)
 		mover:apply_force(friction)
 	end
 
-	if water:bbox_test(mover) then
-		local mag = mover.velocity:mag() -- Harder impact, harder ricochet
-		local drag = water.c * mag * mag
-
-		local drag_vec = (mover.velocity * -1):norm()
-
-		drag_vec:mul(drag)
-
-		mover:apply_force(drag_vec)
-	end
+	water:interact_with_box(mover)
 
 	mover:update(dt)
 end
