@@ -14,6 +14,8 @@ function love.load()
 
 	mover.acceleration.x = 0.01
 	mover.acceleration.y = -0.01
+
+	gravity = Vec2:create(0, 0.01)
 end
 
 function love.update(dt)
@@ -22,7 +24,9 @@ function love.update(dt)
 
 	dir = (v - mover.position):norm()
 
-	mover.acceleration = dir * 0.05
+	--mover.acceleration = dir * 0.05
+
+	mover:apply_force(gravity)
 
 	mover:update(dt)
 end
