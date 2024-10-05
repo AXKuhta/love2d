@@ -78,6 +78,7 @@ function init_pong_scene()
 		ball:hit_test_rect(paddle_r)
 		ball:hit_test_rect(paddle_l)
 
+		-- Player controls
 		if love.keyboard.isDown("w") then
 			paddle_l.position.y = paddle_l.position.y - 200*dt
 		elseif love.keyboard.isDown("s") then
@@ -88,6 +89,22 @@ function init_pong_scene()
 			paddle_r.position.y = paddle_r.position.y - 200*dt
 		elseif love.keyboard.isDown("k") then
 			paddle_r.position.y = paddle_r.position.y + 200*dt
+		end
+
+		-- Paddle bounds
+		local paddle_bottom_limit = h - paddle_size.y/2 - wall_size.y
+		local paddle_top_limit = paddle_size.y/2 + wall_size.y
+
+		if paddle_l.position.y > paddle_bottom_limit then
+			paddle_l.position.y = paddle_bottom_limit
+		elseif paddle_l.position.y < paddle_top_limit then
+			paddle_l.position.y = paddle_top_limit
+		end
+
+		if paddle_r.position.y > paddle_bottom_limit then
+			paddle_r.position.y = paddle_bottom_limit
+		elseif paddle_r.position.y < paddle_top_limit then
+			paddle_r.position.y = paddle_top_limit
 		end
 	end
 
