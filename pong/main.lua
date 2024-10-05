@@ -72,12 +72,6 @@ function init_pong_scene()
 	)
 
 	scene.update = function(self, dt)
-		ball:update(dt)
-		ball:hit_test_rect(wall_u)
-		ball:hit_test_rect(wall_d)
-		ball:hit_test_rect(paddle_r)
-		ball:hit_test_rect(paddle_l)
-
 		-- Player controls
 		if love.keyboard.isDown("w") then
 			paddle_l.position.y = paddle_l.position.y - 200*dt
@@ -106,6 +100,12 @@ function init_pong_scene()
 		elseif paddle_r.position.y < paddle_top_limit then
 			paddle_r.position.y = paddle_top_limit
 		end
+
+		ball:update(dt)
+		ball:hit_test_rect(wall_u)
+		ball:hit_test_rect(wall_d)
+		ball:hit_test_rect(paddle_r)
+		ball:hit_test_rect(paddle_l)
 	end
 
 	scene:add(ball)
