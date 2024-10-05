@@ -18,6 +18,15 @@ function Mover:apply_force(force)
 	self.acceleration:add(force / self.mass)
 end
 
+function Mover:apply_friction(factor)
+	local friction = (self.velocity * -1):norm()
+
+	if friction then
+		friction:mul(factor)
+		self:apply_force(friction)
+	end
+end
+
 function Mover:draw()
 	love.graphics.rectangle("fill", self.position.x - self.width/2, self.position.y - self.height/2, self.width, self.height)
 end

@@ -34,8 +34,6 @@ end
 
 -- Четыре точки
 function Liquid:bbox_test_box(box)
-	-- print(box.position.x - box.width/2)
-
 	local right_x = box.position.x - box.width/2
 	local left_x = box.position.x + box.width/2
 	local top_y = box.position.y - box.height/2
