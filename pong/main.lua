@@ -20,13 +20,22 @@ state = 0
 
 function init_menu_scene()
 	local scene = Scene:create()
+	local font_a = love.graphics.newFont("resources/MxPlus_ToshibaSat_8x8.ttf", 50) -- Fonts from https://int10h.org/oldschool-pc-fonts/
+	local font_b = love.graphics.newFont("resources/MxPlus_ToshibaSat_8x8.ttf", 14)
+	local title = love.graphics.newText(font_a, "minPONG")
+	local hint = love.graphics.newText(font_b, "Press SPACE")
+
+	local draw_centered = function(text, x, y)
+		love.graphics.draw(text, x - text:getWidth()/2, y - text:getHeight()/2)
+	end
 
 	scene.draw = function(self)
 		love.graphics.setColor(0, 0, 0, .8)
 		love.graphics.rectangle("fill", 0, 0, w, h)
 		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.print("minPONG", w/2, h/2)
-		love.graphics.print("Press SPACE", w/2, h/2 + 20)
+
+		draw_centered(title, w/2, h/2 - 20)
+		draw_centered(hint, w/2, h/2 + 20)
 	end
 
 	scene.update = function(self, dt)
