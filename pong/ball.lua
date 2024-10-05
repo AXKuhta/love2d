@@ -73,7 +73,7 @@ function Ball:hit_test_line(x1, y1, x2, y2)
 	local t1 = (-b - D^0.5) / (2*a)
 	local t2 = (-b + D^0.5) / (2*a)
 
-	return (t1 >= 0 and t1 <= 1) or (t2 >= 0 and y2 <= 1)
+	return (t1 >= 0 and t1 <= 1) or (t2 >= 0 and t2 <= 1)
 end
 
 function Ball:boundcheck()
