@@ -7,13 +7,17 @@ h = 500
 
 function love.load()
 	love.window.setMode(w, h)
-	mover = Mover:create(
-		Vec2:create(300, 200),
-		Vec2:create()
+	mover_a = Mover:create(
+		Vec2:create(200, 200),
+		Vec2:create(),
+		1
 	)
 
-	mover.acceleration.x = 0.01
-	mover.acceleration.y = -0.01
+	mover_b = Mover:create(
+		Vec2:create(300, 200),
+		Vec2:create(),
+		2
+	)
 
 	gravity = Vec2:create(0, 0.01)
 end
@@ -22,15 +26,14 @@ function love.update(dt)
 	x, y = love.mouse.getPosition()
 	v = Vec2:create(x, y)
 
-	dir = (v - mover.position):norm()
+	mover_a:apply_force(gravity)
+	mover_a:update(dt)
 
-	--mover.acceleration = dir * 0.05
-
-	mover:apply_force(gravity)
-
-	mover:update(dt)
+	mover_b:apply_force(gravity)
+	mover_b:update(dt)
 end
 
 function love.draw()
-	mover:draw()
+	mover_a:draw()
+	mover_b:draw()
 end

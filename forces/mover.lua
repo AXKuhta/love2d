@@ -14,7 +14,7 @@ function Mover:create(position, velocity, mass)
 end
 
 function Mover:apply_force(force)
-	self.acceleration:add(force)
+	self.acceleration:add(force / self.mass)
 end
 
 function Mover:draw()
@@ -23,6 +23,11 @@ end
 
 function Mover:update(dt)
 	self.velocity = self.velocity + self.acceleration
+
+	if self.velocity:norm() then
+		self.velocity:add( self.velocity:norm() * -0.001 )
+	end
+
 	self.position = self.position + self.velocity
 	self.acceleration:mul(0)
 	self:phys_boundcheck()
