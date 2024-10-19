@@ -32,12 +32,12 @@ function Attractor:attract(mover)
 		if distance < 5 then
 			distance = 5
 		end
-		if distance > 25 then
-			distance = 25
-		end
+		--if distance > 25 then
+		--	distance = 25
+		--end
 
 		local direction = force:norm()
-		local strength = (0.4 * self.mass * mover.mass)/(distance*distance)
+		local strength = (20 * self.mass * mover.mass)/(distance*distance)
 
 		return direction*strength
 	end
