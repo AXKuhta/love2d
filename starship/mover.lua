@@ -11,6 +11,8 @@ function Mover:create(position, width, height, mass)
 	mover.height = height
 	mover.mass = mass or 1
 	mover.acceleration = Vec2:create(0, 0)
+	mover.angle = 0
+	mover.active = false
 	return mover
 end
 
@@ -28,7 +30,28 @@ function Mover:apply_friction(factor)
 end
 
 function Mover:draw()
-	love.graphics.rectangle("fill", self.position.x - self.width/2, self.position.y - self.height/2, self.width, self.height)
+	--love.graphics.rectangle("fill", self.position.x - self.width/2, self.position.y - self.height/2, self.width, self.height)
+	love.graphics.push()
+	love.graphics.translate(self.position.x, self.position.y)
+	love.graphics.rotate(self.angle)
+	r, g, b, a = love.graphics.getColor()
+
+	love.graphics.setLineWidth(4)
+	love.graphics.line(-30, -30, 30, 0, -30, 30, -30, -30) -- Треугольник
+
+	-- Двигатель
+	local type = "line"
+
+	if self.active then
+		love.graphics.setColor(1, 0, 0, 1)
+		type = "fill"
+	end
+
+	love.graphics.rectangle(type, -40, 5, 10, 20)
+	love.graphics.rectangle(type, -40, -25, 10, 20)
+
+	love.graphics.setColor(r, g, b, a)
+	love.graphics.pop()
 end
 
 function Mover:update(dt)
