@@ -7,7 +7,7 @@ function Mover:create(position, velocity, mass)
 	setmetatable(mover, Mover)
 	mover.position = position
 	mover.velocity = velocity
-	mover.radius = 20
+	mover.radius = 15 * mass^0.5
 	mover.mass = mass or 1
 	mover.acceleration = Vec2:create(0, 0)
 	return mover

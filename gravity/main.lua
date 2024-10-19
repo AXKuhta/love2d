@@ -3,26 +3,61 @@ require("vec")
 require("mover")
 require("attractor")
 
-w = 500
-h = 500
+w = 1280
+h = 720
+
+---------------------------------------------------------------------------------------------
+-- Joint Attractor-Mover
+---------------------------------------------------------------------------------------------
+JAM = {}
+JAM.__index = JAM
+
+function JAM:create(position, size)
+	local self = {}
+	setmetatable(self, JAM)
+
+	self.attractor = Attractor:create(
+		position,
+		size
+	)
+
+	self.mover = Mover:create(
+		position,
+		Vec2:create(),
+		size
+	)
+
+	return self
+end
+
+function JAM:update(dt)
+	self.mover:update(dt)
+	
+	-- Sync attractor to mover
+	self.attractor.position = self.mover.position
+end
+
+function JAM:draw()
+	self.mover:draw()
+	self.attractor:draw()
+end
+
+function JAM:interact(other)
+	self.mover:apply_force( other.attractor:attract(self.mover) )
+end
+---------------------------------------------------------------------------------------------
 
 function love.load()
 	love.window.setMode(w, h)
-	mover_a = Mover:create(
+
+	j1 = JAM:create(
 		Vec2:create(200, 200),
-		Vec2:create(),
 		1
 	)
 
-	mover_b = Mover:create(
+	j2 = JAM:create(
 		Vec2:create(300, 200),
-		Vec2:create(),
 		2
-	)
-
-	attr = Attractor:create(
-		Vec2:create(250, 400),
-		30
 	)
 
 	gravity = Vec2:create(0, 0.01)
@@ -32,15 +67,17 @@ function love.update(dt)
 	x, y = love.mouse.getPosition()
 	v = Vec2:create(x, y)
 
-	mover_a:update(dt)
-	mover_b:update(dt)
+	j1:update(dt)
+	j2:update(dt)
 
-	mover_a:apply_force( attr:attract(mover_a) )
-	mover_b:apply_force( attr:attract(mover_b) )
+	j1:interact(j2)
+	j2:interact(j1)
+
+	--mover_a:apply_force( attr:attract(mover_a) )
+	--mover_b:apply_force( attr:attract(mover_b) )
 end
 
 function love.draw()
-	mover_a:draw()
-	mover_b:draw()
-	attr:draw()
+	j1:draw()
+	j2:draw()
 end
