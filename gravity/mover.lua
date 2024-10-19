@@ -31,6 +31,13 @@ function Mover:update(dt)
 	self.position = self.position + self.velocity
 	self.acceleration:mul(0)
 	self:phys_boundcheck()
+
+	-- F = vecr a/b
+	-- a = G m_1 m_2
+	-- b = r*r
+
+	-- vecr = direction vector (attractor.position - attractee.position):norm()
+	-- r = range (attractor.position - attractee.position):mag()
 end
 
 function Mover:phys_boundcheck()
