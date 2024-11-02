@@ -58,7 +58,7 @@ function Mover:update(dt)
 	self.velocity = self.velocity + self.acceleration
 	self.position = self.position + self.velocity
 	self.acceleration:mul(0)
-	self:phys_boundcheck()
+	self:boundcheck()
 end
 
 function Mover:phys_boundcheck()
