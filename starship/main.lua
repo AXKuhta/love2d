@@ -2,6 +2,7 @@
 require("vec")
 require("mover")
 require("obstacle")
+require("collisions")
 
 w = 500
 h = 500
@@ -41,6 +42,8 @@ function love.update(dt)
 	-- mover_b:apply_force(gravity)
 	-- mover_a:apply_friction(0.005)
 	-- mover_b:apply_friction(0.005)
+
+	starship:collide_with_obstacle(obstacle)
 
 	starship:update(dt)
 	obstacle:update(dt)

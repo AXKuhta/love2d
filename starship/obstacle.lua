@@ -5,6 +5,7 @@ Obstacle.__index = Obstacle
 function Obstacle:create(base)
 	local self = {}
 	setmetatable(self, Obstacle)
+	self.radius = 20
 	self.base = base
 
 	self.position = Vec2:create(0, 0)
@@ -40,10 +41,10 @@ end
 function Obstacle:draw()
 	love.graphics.push()
 	love.graphics.translate(self.position.x, self.position.y)
-	love.graphics.circle("fill", 20, 20, 20)
-	love.graphics.circle("fill", 20+w, 20, 20)
-	love.graphics.circle("fill", 20-w, 20, 20)
-	love.graphics.circle("fill", 20, 20+h, 20)
-	love.graphics.circle("fill", 20, 20-h, 20)
+	love.graphics.circle("fill", 0, 0, self.radius)
+	love.graphics.circle("fill", 0+w, 0, self.radius)
+	love.graphics.circle("fill", 0-w, 0, self.radius)
+	love.graphics.circle("fill", 0, 0+h, self.radius)
+	love.graphics.circle("fill", 0, 0-h, self.radius)
 	love.graphics.pop()
 end
