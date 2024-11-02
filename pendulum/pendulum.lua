@@ -16,9 +16,30 @@ function Pendulum:create(origin, length)
 	return self
 end
 
+function Pendulum:handle_input()
+	local x, y = love.mouse.getPosition()
+	v = Vec2:create(x, y)
+
+	if love.mouse.isDown(1) then
+		if (self.position - v):mag() <= self.radius then
+			self.dragging = true
+		end
+	else
+		self.dragging = false
+	end
+end
+
 function Pendulum:update(dt)
+	self:handle_input()
+
 	self.position.x = self.length * math.sin(self.angle) + self.origin.x
 	self.position.y = self.length * math.cos(self.angle) + self.origin.y
+
+	if self.dragging then
+		local x, y = love.mouse.getPosition()
+		self.position.x = x
+		self.position.y = y
+	end
 end
 
 function Pendulum:draw()
@@ -31,5 +52,6 @@ function Pendulum:draw()
 		self.origin.x, self.origin.y,
 		self.position.x, self.position.y
 	)
+
 	love.graphics.circle("fill", self.position.x, self.position.y, self.radius)
 end

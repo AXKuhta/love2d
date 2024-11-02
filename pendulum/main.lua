@@ -15,6 +15,9 @@ function love.load()
 end
 
 function love.update(dt)
+	x, y = love.mouse.getPosition()
+	v = Vec2:create(x, y)
+
 	p1:update(dt)
 end
 
