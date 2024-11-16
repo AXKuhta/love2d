@@ -16,6 +16,15 @@ function Pendulum:create(origin, length)
 	return self
 end
 
+function Pendulum:drag()
+	if self.dragging then
+		local x, y = love.mouse.getPosition()
+		local v = Vec2:create(x, y)
+		local diff = v - self.origin
+		self.angle = math.atan2(diff.x, diff.y)
+	end
+end
+
 function Pendulum:handle_input()
 	local x, y = love.mouse.getPosition()
 	v = Vec2:create(x, y)
@@ -31,15 +40,17 @@ end
 
 function Pendulum:update(dt)
 	self:handle_input()
+	self:drag()
 
 	self.position.x = self.length * math.sin(self.angle) + self.origin.x
 	self.position.y = self.length * math.cos(self.angle) + self.origin.y
 
-	if self.dragging then
-		local x, y = love.mouse.getPosition()
-		self.position.x = x
-		self.position.y = y
-	end
+	local gravity = 0.4
+
+	self.angular_acceleration = (-1*gravity / self.length) * math.sin(self.angle)
+	self.angular_velocity = self.angular_velocity + self.angular_acceleration
+	self.angular_velocity = self.angular_velocity * self.damping
+	self.angle = self.angle + self.angular_velocity
 end
 
 function Pendulum:draw()
