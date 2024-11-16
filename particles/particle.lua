@@ -9,8 +9,10 @@ function Particle:create(position)
 	local self = {}
 	setmetatable(self, Particle)
 
+	self.gravity = Vec2:create(0, .05)
+
 	self.position = position
-	self.acceleration = Vec2:create(0, .05)
+	self.acceleration = Vec2:create(0, 0)
 	self.velocity = Vec2:create(
 		math.random(-400, 400)/100,
 		math.random(-400, 0)/100
@@ -23,10 +25,18 @@ function Particle:create(position)
 	return self
 end
 
+function Particle:apply_force(force)
+	self.acceleration:add(force)
+end
+
 function Particle:update(dt)
-	self.velocity = self.velocity + self.acceleration
-	self.position = self.position + self.velocity
+	self:apply_force(self.gravity)
+
+	self.velocity:add(self.acceleration)
+	self.position:add(self.velocity)
 	self.life = self.life - 1*dt
+
+	self.acceleration:mul(0)
 end
 
 function Particle:is_dead()
