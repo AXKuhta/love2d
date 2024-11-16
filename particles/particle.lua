@@ -12,12 +12,12 @@ function Particle:create(position)
 	self.position = position
 	self.acceleration = Vec2:create(0, .05)
 	self.velocity = Vec2:create(
-		math.random(-1, 1),
-		math.random(-1, 0)
+		math.random(-400, 400)/100,
+		math.random(-400, 0)/100
 	)
 
 	self.lifespan = 2 -- В секундах
-	self.life = self.lifespan
+	self.life = math.random(100 * self.lifespan/2, self.lifespan * 100)/100
 	self.texture = love.graphics.newImage("texture.png")
 
 	return self
@@ -66,13 +66,17 @@ function ParticleSystem:create_particle()
 	return self.cls:create(self.origin:copy())
 end
 
-function ParticleSystem:init()
-	for i=1, self.n do
-		self.particles[#self.particles + 1] = self:create_particle()
-	end
-end
+-- function ParticleSystem:init()
+-- 	for i=1, self.n do
+-- 		self.particles[#self.particles + 1] = self:create_particle()
+-- 	end
+-- end
 
 function ParticleSystem:update(dt)
+	if #self.particles < self.n then
+		self.particles[#self.particles + 1] = self:create_particle()
+	end
+
 	for k, v in pairs(self.particles) do
 		v:update(dt)
 

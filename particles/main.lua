@@ -13,10 +13,9 @@ function love.load()
 	)
 
 	system = ParticleSystem:create(
-		Vec2:create(w/2, h/2)
+		Vec2:create(w/2, h/2),
+		100
 	)
-
-	system:init()
 end
 
 function love.update(dt)
