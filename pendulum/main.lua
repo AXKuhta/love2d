@@ -12,6 +12,16 @@ function love.load()
 		Vec2:create(w/2, h/2),
 		100
 	)
+
+	p2 = Pendulum:create(
+		p1.position,
+		100
+	)
+
+	p3 = Pendulum:create(
+		p2.position,
+		100
+	)
 end
 
 function love.update(dt)
@@ -19,8 +29,12 @@ function love.update(dt)
 	v = Vec2:create(x, y)
 
 	p1:update(dt)
+	p2:update(dt)
+	p3:update(dt)
 end
 
 function love.draw()
 	p1:draw()
+	p2:draw()
+	p3:draw()
 end
