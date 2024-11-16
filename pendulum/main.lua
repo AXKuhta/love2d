@@ -1,6 +1,7 @@
 
 require("vec")
 require("pendulum")
+require("entity")
 
 w = 800
 h = 600
@@ -22,6 +23,10 @@ function love.load()
 		p2.position,
 		100
 	)
+
+	e1 = Entity:create(
+		Vec2:create(20, 20)
+	)
 end
 
 function love.update(dt)
@@ -31,10 +36,14 @@ function love.update(dt)
 	p1:update(dt)
 	p2:update(dt)
 	p3:update(dt)
+
+	e1:update(dt)
 end
 
 function love.draw()
 	p1:draw()
 	p2:draw()
 	p3:draw()
+
+	e1:draw()
 end
