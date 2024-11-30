@@ -45,7 +45,14 @@ function Box:draw()
 	end
 end
 
-function Box:clicked(v)
+function Box:click_test(v)
+	if not love.mouse.isDown(1) then
+		return
+	end
+
+	x, y = love.mouse.getPosition()
+	v = Vec2:create(x, y)
+
 	if 	v.x > self.origin.x - self.size.x/2 and
 		v.x < self.origin.x + self.size.x/2 and
 		v.y > self.origin.y - self.size.y/2 and
@@ -60,6 +67,8 @@ function Box:is_dead()
 end
 
 function Box:update(dt)
+	self:click_test()
+
 	if self.state == "dying" then
 		self.size = self.size - Vec2:create(5, 5)
 	end

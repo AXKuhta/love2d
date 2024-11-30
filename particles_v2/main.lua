@@ -35,10 +35,6 @@ function love.update(dt)
 
 	system:update(dt)
 	box:update(dt)
-
-	if love.mouse.isDown(1) then
-		box:clicked(v)
-	end
 end
 
 function love.draw()
