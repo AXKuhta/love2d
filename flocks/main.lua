@@ -22,6 +22,8 @@ function love.update(dt)
     local target = Vector:create(x, y)
     for i = 0, #bs do
         local b = bs[i]
+		local steer = b:seek(target)
+		b:applyForce(steer)
         b:update(bs)
     end
 end

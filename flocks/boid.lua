@@ -50,11 +50,49 @@ function Boid:applyForce(force)
 end
 
 function Boid:seek(target)
-    return Vector:create(0, 0)
+	local desired = target - self.position
+	
+	desired:norm()
+	desired:mul(self.maxSpeed)
+
+	local steer = desired - self.velocity
+
+	steer:limit(self.maxForce)
+    
+	return steer
 end
 
 function Boid:separate(others)
-    return Vector:create(0, 0)
+	local separation = 25.0
+	local steer = Vector:create(0, 0)
+	local count = 0
+
+	for k, v in pairs(others) do
+		local dist = self.position:distTo(v.position)
+
+		if dist > 0 and dist < separation then
+			local diff = self.position - v.position
+
+			diff:norm()
+			diff:div(dist) -- Далеко - меньше, ближе - больше
+			steer:add(diff)
+
+			count = count + 1
+		end
+	end
+
+	if count > 0 then
+		steer:div(count)
+	end
+
+	if steer:mag() > 0 then
+		steer:norm()
+		steer:mul(self.maxSpeed)
+		steer:sub(self.velocity)
+		steer:limit(self.maxForce)
+	end
+
+    return steer
 end
 
 function Boid:align(others)
