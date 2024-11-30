@@ -61,7 +61,7 @@ end
 
 function Box:update(dt)
 	if self.state == "dying" then
-		self.size = self.size - Vec2:create(.5, .5)
+		self.size = self.size - Vec2:create(5, 5)
 	end
 
 	if self.state ~= "dead" and self.size.x < 0 then
@@ -96,7 +96,7 @@ function BoxSegmentParticle:create(loc1, loc2)
 
 	self.loc1 = loc1:copy()
 	self.loc2 = loc2:copy()
-	self.acceleration = Vec2:create(0, 0.05)
+	self.acceleration = Vec2:create(0, 0.1)
 	self.velocity = Vec2:create(
 		math.random(-200, 200) / 100,
 		math.random(-100, 0) / 100
@@ -143,7 +143,7 @@ function BoxEdgeParticle:create(loc)
 	setmetatable(self, BoxEdgeParticle)
 
 	self.loc = loc:copy()
-	self.acceleration = Vec2:create(0, 0.05)
+	self.acceleration = Vec2:create(0, 0.1)
 	self.velocity = Vec2:create(
 		math.random(-200, 200) / 100,
 		math.random(-100, 0) / 100

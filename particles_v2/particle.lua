@@ -26,9 +26,9 @@ function ParticleSystem:add_particle(particle)
 end
 
 function ParticleSystem:update(dt)
-	--if #self.particles < self.n then
-	--	self.particles[#self.particles + 1] = self:create_particle()
-	--end
+	-- if #self.particles < self.n then
+	-- 	self.particles[#self.particles + 1] = self:create_particle()
+	-- end
 
 	for k, v in pairs(self.particles) do
 		v:update(dt)
