@@ -75,6 +75,11 @@ function Box:update(dt)
 		system:add_particle(BoxSegmentParticle:create(br, bl))
 		system:add_particle(BoxSegmentParticle:create(bl, tl))
 
+		system:add_particle(BoxEdgeParticle:create(tl))
+		system:add_particle(BoxEdgeParticle:create(tr))
+		system:add_particle(BoxEdgeParticle:create(bl))
+		system:add_particle(BoxEdgeParticle:create(br))
+
 		self.state = "dead"
 	end
 end
@@ -97,8 +102,8 @@ function BoxSegmentParticle:create(loc1, loc2)
 		math.random(-100, 0) / 100
 	)
 
-	self.lifespan = 100
-	self.life = 100
+	self.lifespan = 1
+	self.life = 1
 
 	return self
 end
@@ -124,5 +129,48 @@ function BoxSegmentParticle:draw()
 		self.loc1.x, self.loc1.y,
 		self.loc2.x, self.loc2.y
 	)
+	love.graphics.setColor(r, g, b, a)
+end
+
+--
+-- Один из углов коробки
+--
+BoxEdgeParticle = {}
+BoxEdgeParticle.__index = BoxEdgeParticle
+
+function BoxEdgeParticle:create(loc)
+	local self = {}
+	setmetatable(self, BoxEdgeParticle)
+
+	self.loc = loc:copy()
+	self.acceleration = Vec2:create(0, 0.05)
+	self.velocity = Vec2:create(
+		math.random(-200, 200) / 100,
+		math.random(-100, 0) / 100
+	)
+
+	self.lifespan = 1
+	self.life = 1
+
+	return self
+end
+
+function BoxEdgeParticle:update(dt)
+	self.velocity:add(self.acceleration)
+	self.loc:add(self.velocity)
+	self.life = self.life - 1*dt
+end
+
+function BoxEdgeParticle:is_dead()
+	if self.life < 0 then
+		return true
+	end
+	return false
+end
+
+function BoxEdgeParticle:draw()
+	r, g, b, a = love.graphics.getColor()
+	love.graphics.setColor(1, 1, 1, self.life/self.lifespan)
+	love.graphics.circle("fill", self.loc.x, self.loc.y, 5)
 	love.graphics.setColor(r, g, b, a)
 end
