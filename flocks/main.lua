@@ -23,7 +23,7 @@ function love.update(dt)
     for i = 0, #bs do
         local b = bs[i]
 		local steer = b:seek(target)
-		b:applyForce(steer)
+		--b:applyForce(steer)
         b:update(bs)
     end
 end
